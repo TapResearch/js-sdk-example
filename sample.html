@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>JS Supply API demo</title>
+
+    <style type="text/css" rel="stylesheet">
+      body {
+        font-family: arial;
+        text-align: center;
+        padding: 50px 0;
+        background: #EEE;
+      }
+      .survey-pane {
+        max-width: 300px;
+        margin: auto;
+        padding: 20px;
+        background: #FFF;
+        border-radius: 5px;
+        box-shadow: 0 0 6px #AAA;
+      }
+      .loading {
+        text-align: center;
+      }
+      .survey-call-to-action {
+        display: none;
+      }
+      h3 {
+        margin: 0;
+      }
+
+    </style>
+  </head>
+  <body>
+    
+    <div class="survey-pane">
+
+      <div class="loading">
+        Checking for surveys...
+      </div>
+
+      <div class="survey-call-to-action">
+        <h3>We found surveys for you!</h3>
+        <p class="earnings-message">
+        </p>
+        <a href="#" class="survey-link">Take a survey</a>!
+      </div>
+
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript">
+    !!function(e,t){window.TapResearch=t,t.loadLibrary=function(e){var o=document.createElement("script"),a=document.getElementsByTagName("head")[0];o.src=t.host+"/assets/sdk.js"+(e?"?ver="+e:""),o.async=!0,a.appendChild(o),t.loadTimeout=setTimeout(function(){t.handleTimeout()},t.config.load_timeout||2e3)},t.init=function(e){t.config=e,t.host="https://www.tapresearch.com",t.loadLibrary()}}(document,window.TapResearch||[]);
+    </script>
+
+    <script type="text/javascript">
+      TapResearch.init({
+
+        api_token: 'a081241539ed90fcc7c353f2eb7dd5c1',
+        user_identifier: "test-user", // This should be different for each user on your website. If you do not have user logins, remove this line.
+
+        has_survey_callback: function(data) {
+          $('.earnings-message').html('Earn between ' + data.message_hash.min + ' and ' + data.message_hash.max + ' ' + data.message_hash.currency)
+          $('.survey-link').attr('href', data.offer_url);
+          $('.loading').hide();
+          $('.survey-call-to-action').show();
+        },
+
+        no_survey_callback: function() {
+          $('.loading').hide();
+        }
+        
+      });
+    </script>
+  
+  </body>
+</html>
